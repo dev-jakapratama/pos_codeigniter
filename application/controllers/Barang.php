@@ -53,15 +53,14 @@ class Barang extends CI_Controller{
 		}
 	}
 
-	public function ubah($kode_barang){
+	public function ubah($id){
 		if ($this->session->login['role'] == 'kasir'){
 			$this->session->set_flashdata('error', 'Ubah data hanya untuk admin!');
 			redirect('penjualan');
 		}
 
 		$this->data['title'] = 'Ubah Barang';
-		$this->data['barang'] = $this->m_barang->lihat_id($kode_barang);
-
+		$this->data['barang'] = $this->m_barang->lihat_id($id);
 		$this->load->view('barang/ubah', $this->data);
 	}
 

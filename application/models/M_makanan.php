@@ -8,6 +8,11 @@ class M_Makanan extends CI_Model {
         return $query->result();
     }
 
+    public function lihat_id($id){
+		$query = $this->db->get_where($this->_table, ['id' => $id]);
+		return $query->row();
+	}
+
     public function create_data($data) {
         return $this->db->insert($this->_table, $data);
     }
@@ -24,14 +29,9 @@ class M_Makanan extends CI_Model {
         return $this->db->where('id', $id)->delete('makanan');
     }
 
-    public function lihat_id($id){
-		$query = $this->db->get_where($this->_table, ['id' => $id]);
-		return $query->row();
-	}
-
-    public function ubah($data, $nama){
+    public function ubah($data, $id){
 		$query = $this->db->set($data);
-		$query = $this->db->where(['nama' => $nama]);
+		$query = $this->db->where(['id' => $id]);
 		$query = $this->db->update($this->_table);
 		return $query;
 	}

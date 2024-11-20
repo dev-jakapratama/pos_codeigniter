@@ -29,21 +29,21 @@
 						<div class="card shadow">
 							<div class="card-header"><strong>Isi Form Dibawah Ini!</strong></div>
 							<div class="card-body">
-								<form action="<?= base_url('makanan/proses_ubah/'.$makanan->id) ?>" id="form-tambah" method="POST">
+								<form action="<?= base_url('makanan/proses_ubah/' . $makanan->id) ?>" id="form-ubah" method="POST">
 									<div class="form-row">
 										<div class="form-group col-md-12">
-											<label for="nama"><strong>Nama Makanan</strong></label>
+											<label for="nama"><strong>Nama</strong></label>
 											<input type="text" name="nama" placeholder="Masukkan Nama" autocomplete="off"  class="form-control" required value="<?= $makanan->nama ?>" maxlength="8" readonly>
 										</div>
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-6">
 											<label for="harga"><strong>Harga</strong></label>
-											<input type="text" name="harga" placeholder="Masukkan Harga" autocomplete="off"  class="form-control" required value="<?= $makanan->harga ?>">
+											<input type="number" name="harga" placeholder="Masukkan Harga" autocomplete="off"  class="form-control" required value="<?= $makanan->harga ?>">
 										</div>
 										<div class="form-group col-md-6">
 											<label for="stock"><strong>Stock</strong></label>
-											<input type="text" name="stock" placeholder="Masukkan Stock" autocomplete="off"  class="form-control" required value="<?= $makanan->stock ?>">
+											<input type="number" name="stock" placeholder="Masukkan Stock" autocomplete="off"  class="form-control" required value="<?= $makanan->stock ?>">
 										</div>
 									</div>
 									<hr>

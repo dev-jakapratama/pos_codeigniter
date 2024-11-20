@@ -58,17 +58,17 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach ($makanan as $food): ?>
+									<?php foreach ($all_food as $makanan): ?>
 										<tr>
 											<td><?= $no++ ?></td>
-											<td><?= $food->nama ?></td>
+											<td><?= $makanan->nama ?></td>
 											
-											<td>Rp <?= number_format($food->harga, 0, ',', '.') ?></td>
-                      <td><?= $food->stock ?></td>
+											<td>Rp <?= number_format($makanan->harga, 0, ',', '.') ?></td>
+                      <td><?= $makanan->stock ?></td>
 											<?php if ($this->session->login['role'] == 'admin'): ?>
 												<td>
-													<a href="<?= base_url('makanan/ubah/' . $food->id) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>
-													<a onclick="return confirm('apakah anda yakin?')" href="<?= base_url('makanan/hapus/' . $food->nama) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+													<a href="<?= base_url('makanan/ubah/' . $makanan->id) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>
+													<a onclick="return confirm('apakah anda yakin?')" href="<?= base_url('makanan/hapus/' . $makanan->nama) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
 												</td>
 											<?php endif ?>
 										</tr>

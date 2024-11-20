@@ -13,7 +13,7 @@ class Makanan extends CI_Controller {
 
     public function index() {
         $this->data['title'] = 'Data Makanan';
-        $this->data['makanan'] = $this->m_makanan->get_all_makanan();
+        $this->data['all_food'] = $this->m_makanan->get_all_makanan();
         $this->data['no'] = 1;
         $this->load->view('makanan/index', $this->data);
     }
@@ -45,19 +45,25 @@ class Makanan extends CI_Controller {
 
     }
 
-    public function ubah($nama){
-		// if ($this->session->login['role'] == 'kasir'){
-		// 	$this->session->set_flashdata('error', 'Ubah data hanya untuk admin!');
-		// 	redirect('makanan');
-		// }
+    public function ubah($id){
+		if ($this->session->login['role'] == 'kasir'){
+			$this->session->set_flashdata('error', 'Ubah data hanya untuk admin!');
+			redirect('makanan');
+		}
 
 		$this->data['title'] = 'Ubah Makanan';
-		$this->data['makanan'] = $this->m_makanan->lihat_id($id);
+        $this->data['makanan'] = $this->m_makanan->lihat_id($id);
 
-		$this->load->view('makanan/ubah', $this->data);
+        // Lanjutkan jika data ditemukan
+        if ($this->data['makanan']) {
+                $this->load->view('makanan/ubah', $this->data);
+        } else {
+                $this->session->set_flashdata('error', 'Data Makanan tidak ditemukan!');
+                redirect('makanan');
+        }
 	}
 
-	public function proses_ubah($nama){
+	public function proses_ubah($id){
 		if ($this->session->login['role'] == 'kasir'){
 			$this->session->set_flashdata('error', 'Ubah data hanya untuk admin!');
 			redirect('makanan');
@@ -68,8 +74,7 @@ class Makanan extends CI_Controller {
 			'harga' => $this->input->post('harga'),
 			'stock' => $this->input->post('stock')
 		];
-
-		if($this->m_makanan->ubah($data, $nama)){
+		if($this->m_makanan->ubah($data, $id)){
 			$this->session->set_flashdata('success', 'Data Makanan <strong>Berhasil</strong> Diubah!');
 			redirect('makanan');
 		} else {
