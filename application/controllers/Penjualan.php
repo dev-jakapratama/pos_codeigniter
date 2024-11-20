@@ -81,9 +81,20 @@ class Penjualan extends CI_Controller {
 	}
 
 
-	public function get_all_barang(){
-		$data = $this->m_barang->lihat_nama_barang($_POST['nama_barang']);
-		echo json_encode($data);
+	public function get_all_barang() {
+    // Check if 'nama_barang' is set and not null
+    $nama_barang = isset($_POST['nama_barang']) ? $_POST['nama_barang'] : '';
+
+    // Call the model method only if $nama_barang is not empty
+    if (!empty($nama_barang)) {
+        $data = $this->m_barang->lihat_nama_barang($nama_barang);
+    } else {
+        // Return an empty response or a default structure
+        $data = ['error' => 'nama_barang is required'];
+    }
+
+    // Return the data as JSON
+    echo json_encode($data);
 	}
 
 	public function keranjang_barang(){

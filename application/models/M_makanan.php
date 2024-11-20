@@ -1,5 +1,4 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_Makanan extends CI_Model {
     protected $_table = 'makanan';
@@ -9,8 +8,8 @@ class M_Makanan extends CI_Model {
         return $query->result();
     }
 
-    public function insert_makanan($data) {
-        return $this->db->insert('makanan', $data);
+    public function create_data($data) {
+        return $this->db->insert($this->_table, $data);
     }
 
     public function get_makanan_by_id($id) {
@@ -24,4 +23,20 @@ class M_Makanan extends CI_Model {
     public function delete_makanan($id) {
         return $this->db->where('id', $id)->delete('makanan');
     }
+
+    public function lihat_id($id){
+		$query = $this->db->get_where($this->_table, ['id' => $id]);
+		return $query->row();
+	}
+
+    public function ubah($data, $nama){
+		$query = $this->db->set($data);
+		$query = $this->db->where(['nama' => $nama]);
+		$query = $this->db->update($this->_table);
+		return $query;
+	}
+
+	public function hapus($nama){
+		return $this->db->delete($this->_table, ['nama' => $nama]);
+	}
 }

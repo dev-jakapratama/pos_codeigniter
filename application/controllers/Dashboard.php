@@ -10,6 +10,8 @@ class Dashboard extends CI_Controller {
 		$this->load->model('M_penjualan', 'm_penjualan');
 		$this->load->model('M_pengguna', 'm_pengguna');
 		$this->load->model('M_toko', 'm_toko');
+		$this->load->model('M_makanan', 'm_makanan');
+		
 	}
 	public function index(){
 		$this->data['title'] = 'Halaman Dashboard';

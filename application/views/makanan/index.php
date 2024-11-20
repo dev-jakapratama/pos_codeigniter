@@ -21,7 +21,7 @@
 					</div>
 					<div class="float-right">
 						<?php if ($this->session->login['role'] == 'admin'): ?>
-							<a href="<?= base_url('makanan/create') ?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah</a>
+							<a href="<?= base_url('makanan/add') ?>" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>&nbsp;&nbsp;Tambah</a>
 						<?php endif ?>
 					</div>
 				</div>
@@ -67,8 +67,8 @@
                       <td><?= $food->stock ?></td>
 											<?php if ($this->session->login['role'] == 'admin'): ?>
 												<td>
-													<a href="<?= base_url('makanan/edit/' . $food->id) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>
-													<a onclick="return confirm('apakah anda yakin?')" href="<?= base_url('makanan/delete/' . $food->id) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+													<a href="<?= base_url('makanan/ubah/' . $food->id) ?>" class="btn btn-success btn-sm"><i class="fa fa-pen"></i></a>
+													<a onclick="return confirm('apakah anda yakin?')" href="<?= base_url('makanan/hapus/' . $food->nama) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
 												</td>
 											<?php endif ?>
 										</tr>

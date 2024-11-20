@@ -1,5 +1,4 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
 
 use Dompdf\Dompdf;
 
@@ -7,6 +6,7 @@ class Makanan extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        if($this->session->login['role'] != 'kasir' && $this->session->login['role'] != 'admin') redirect();
         $this->data['aktif'] = 'makanan';
         $this->load->model('M_makanan', 'm_makanan');
     }
@@ -18,35 +18,78 @@ class Makanan extends CI_Controller {
         $this->load->view('makanan/index', $this->data);
     }
 
-    public function create() {
-        if ($this->input->post()) {
-            $data = array(
-                'nama' => $this->input->post('nama'),
-                'harga' => $this->input->post('harga'),
-                'stock' => $this->input->post('stock')
-            );
-            $this->Makanan->insert_makanan($data);
-            redirect('makanan');
-        }
-        $this->load->view('makanan/create');
+    public function add() {
+        $this->data['title'] = 'Tambah Makanan';
+        $this->load->view('makanan/add', $this->data);
     }
 
-    public function edit($id) {
-        $data['makanan'] = $this->Makanan->get_makanan_by_id($id);
-        if ($this->input->post()) {
-            $update_data = array(
-                'nama' => $this->input->post('nama'),
-                'harga' => $this->input->post('harga'),
-                'stock' => $this->input->post('stock')
-            );
-            $this->Makanan->update_makanan($id, $update_data);
-            redirect('makanan');
-        }
-        $this->load->view('makanan/edit', $data);
+    public function process_add() {
+        if ($this->session->login['role'] == 'kasir'){
+			$this->session->set_flashdata('error', 'Tambah data hanya untuk admin!');
+			redirect('penjualan');
+		}
+
+		$data = [
+			'nama' => $this->input->post('nama'),
+			'harga' => $this->input->post('harga'),
+			'stock' => $this->input->post('stock')
+		];
+
+		if($this->m_makanan->create_data($data)){
+			$this->session->set_flashdata('success', 'Data Makanan <strong>Berhasil</strong> Ditambahkan!');
+			redirect('makanan');
+		} else {
+			$this->session->set_flashdata('error', 'Data Makanan <strong>Gagal</strong> Ditambahkan!');
+			redirect('makanan');
+		}
+
     }
 
-    public function delete($id) {
-        $this->Makanan->delete_makanan($id);
-        redirect('makanan');
-    }
+    public function ubah($nama){
+		// if ($this->session->login['role'] == 'kasir'){
+		// 	$this->session->set_flashdata('error', 'Ubah data hanya untuk admin!');
+		// 	redirect('makanan');
+		// }
+
+		$this->data['title'] = 'Ubah Makanan';
+		$this->data['makanan'] = $this->m_makanan->lihat_id($id);
+
+		$this->load->view('makanan/ubah', $this->data);
+	}
+
+	public function proses_ubah($nama){
+		if ($this->session->login['role'] == 'kasir'){
+			$this->session->set_flashdata('error', 'Ubah data hanya untuk admin!');
+			redirect('makanan');
+		}
+
+		$data = [
+			'nama' => $this->input->post('nama'),
+			'harga' => $this->input->post('harga'),
+			'stock' => $this->input->post('stock')
+		];
+
+		if($this->m_makanan->ubah($data, $nama)){
+			$this->session->set_flashdata('success', 'Data Makanan <strong>Berhasil</strong> Diubah!');
+			redirect('makanan');
+		} else {
+			$this->session->set_flashdata('error', 'Data Makanan <strong>Gagal</strong> Diubah!');
+			redirect('makanan');
+		}
+	}
+
+    public function hapus($nama){
+		if ($this->session->login['role'] == 'kasir'){
+			$this->session->set_flashdata('error', 'Hapus data hanya untuk admin!');
+			redirect('makanan');
+		}
+		
+		if($this->m_makanan->hapus($nama)){
+			$this->session->set_flashdata('success', 'Data Makanan <strong>Berhasil</strong> Dihapus!');
+			redirect('makanan');
+		} else {
+			$this->session->set_flashdata('error', 'Data Makanan <strong>Gagal</strong> Dihapus!');
+			redirect('makanan');
+		}
+	}
 }
